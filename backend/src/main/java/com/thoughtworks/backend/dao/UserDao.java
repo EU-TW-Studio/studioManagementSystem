@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-
 public interface UserDao extends CrudRepository<Student,Long> {
     @Query("select stu from Student stu where stu.username = ?1 and stu.password = ?2")
     List<Student> login(String username, String password);
