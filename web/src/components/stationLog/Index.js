@@ -17,11 +17,22 @@ class Index extends Component {
     }
 
     render() {
+        let studentListInfo = [];
+        if (this.props.individualStudentSelectedState !== -1) {
+            this.props.studentList.map(item => {
+                if (this.props.individualStudentSelectedState === item.id) {
+                    studentListInfo.push(item);
+                }
+            });
+        }else {
+            studentListInfo = this.props.studentList;
+        }
+
         return (
             <div>
                 <Row>
-                    <Col span={8}><StudentList/></Col>
-                    <Col span={16}><GrowthLogList/></Col>
+                    <Col span={8}><StudentList studentList={this.props.studentList}/></Col>
+                    <Col span={16}><GrowthLogList studentList={studentListInfo}/></Col>
                 </Row>
             </div>
         )
@@ -30,7 +41,8 @@ class Index extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        studentList: state.StationLog.studentList
+        studentList: state.StationLog.studentList,
+        individualStudentSelectedState: state.Student.individualStudentSelectedState
     };
 };
 

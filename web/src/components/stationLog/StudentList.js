@@ -77,10 +77,5 @@ class StudentList extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        studentList: state.StationLog.studentList
-    };
-};
 
-export default connect(mapStateToProps)(StudentList);
+export default StudentList;

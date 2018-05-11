@@ -2,14 +2,16 @@ import React, {Component} from 'react';
 import GrowthLog from './GrowthLog'
 import {connect} from 'react-redux';
 import {List, Card, Row, Col} from 'antd';
+import * as stationLog from '../../action/stationLog';
 
-/**
- * 成长日志
- */
 class GrowthLogList extends Component {
 
     constructor(props){
         super(props);
+    }
+
+    showAllArticles() {
+        this.props.getShowAllArticlesStatus(-1);
     }
 
     render() {
@@ -19,9 +21,10 @@ class GrowthLogList extends Component {
             current: 1,
             total: this.props.studentList.length,
         };
+        console.log(this.props.studentList, "studentList中的信息");
 
         return (
-            <Card title="成长日志内容" extra={<a href="#">More</a>} style={{margin: 5}}>
+            <Card title="成长日志内容" extra={<a onClick={this.showAllArticles.bind(this)}>{this.props.individualStudentSelectedState === -1 ? "" : "全部显示"}</a>} style={{margin: 5}}>
                 <List
                     itemLayout="vertical"
                     size="large"
@@ -29,7 +32,11 @@ class GrowthLogList extends Component {
                     dataSource={this.props.studentList}
                     footer={<div><b>ant design</b> footer part</div>}
                     renderItem={item => (
-                        item.stationRecord.map((elem,i) => <GrowthLog growthLog={elem} key={i} />)
+                        item.stationRecord.map((elem, i) =>
+                            <GrowthLog
+                                growthLog={elem}
+                                userName={item.username}
+                                key={i}/>)
                     )}
                 />
             </Card>
@@ -41,8 +48,16 @@ class GrowthLogList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        studentList: state.StationLog.studentList
-    };
+        individualStudentSelectedState: state.Student.individualStudentSelectedState
+    }
 };
 
-export default connect(mapStateToProps)(GrowthLogList);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getShowAllArticlesStatus:(status)=>{
+            dispatch(stationLog.setShowAllArticlesStatus(status));
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(GrowthLogList);

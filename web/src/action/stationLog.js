@@ -8,6 +8,13 @@ export const allStationLogList = (content) => {
     };
 };
 
+export const setShowAllArticlesStatus = (content) => {
+    return {
+        type: "SET_CURRENTLY_SELECTED_STUDENTS",
+        content
+    }
+}
+
 export const getStationLogList = () => {
     return dispatch => {
         request.get(`/web/stationRecord/logList`)

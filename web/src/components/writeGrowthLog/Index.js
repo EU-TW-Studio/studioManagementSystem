@@ -10,6 +10,9 @@ import * as stationLogAction from "../../action/stationLog";
 
 
 class Index extends Component {
+    static defaultProps = {
+        isLogin:false
+    }
 
     constructor() {
         super();
@@ -31,21 +34,27 @@ class Index extends Component {
     }
 
     enterLoading = () => {
-        console.log("显示的日志信息", this.state.editContent);
-        console.log("显示的日志信息", this.state.editContentTitle);
-        if (!this.state.editContentTitle) {
+        if (!this.props.isLogin) {
             this.setState({
-                messageText: "文章标题不能为空",
+                messageText: "请登陆后发表文章",
                 typeText: "warning"
             });
             return;
-        }
-        if (!this.state.editContent) {
-            this.setState({
-                messageText: "文章内容不能为空",
-                typeText: "warning"
-            });
-            return;
+        } else {
+            if (!this.state.editContentTitle) {
+                this.setState({
+                    messageText: "文章标题不能为空",
+                    typeText: "warning"
+                });
+                return;
+            }
+            if (!this.state.editContent) {
+                this.setState({
+                    messageText: "文章内容不能为空",
+                    typeText: "warning"
+                });
+                return;
+            }
         }
         let stationRecord = {
             logContent: this.state.editContent,
@@ -53,7 +62,7 @@ class Index extends Component {
             userId: this.props.userInfo.id
         };
         this.props.saveGrowthLog(stationRecord);
-        setTimeout('this.setState({loading: false});', 1000);
+        // setTimeout('this.setState({loading: false});', 1000);
     };
 
     getEditContent(e) {
@@ -145,7 +154,8 @@ class Index extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userInfo: state.Login.userInfo
+        userInfo: state.Login.userInfo,
+        isLogin: state.Login.isLogin
     }
 };
 

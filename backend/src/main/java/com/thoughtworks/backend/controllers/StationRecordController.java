@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RestController
@@ -37,7 +38,8 @@ public class StationRecordController {
             student.setId(articleInfo.getUserId());
             stationRecord.setLogContent(articleInfo.getLogContent());
             stationRecord.setLogTitle(articleInfo.getLogTitle());
-            stationRecord.setReleaseDate(new Date());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            stationRecord.setReleaseDate(df.parse(df.format(new Date())));
             stationRecord.setStudent(student);
             stationRecordDao.save(stationRecord);
             return new ResponseEntity("", HttpStatus.OK);
@@ -45,5 +47,10 @@ public class StationRecordController {
             e.printStackTrace();
         }
         return new ResponseEntity("", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @RequestMapping ("/allArticle")
+    public ResponseEntity allArticle() {
+        return new ResponseEntity(stationRecordDao.findAll(), HttpStatus.OK);
     }
 }
