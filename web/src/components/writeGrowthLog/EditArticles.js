@@ -9,21 +9,38 @@ class EditArticles extends Component {
     constructor() {
         super();
         this.state = {
-            growthLog: ""
-    }
+            growthLog: "",
+            displaySpecifiedArticle: -1
+        }
     }
 
     handleWriteGrowthLogBlur(event) {
         this.props.getEditContent(event.target.value);
+        this.setState({
+            growthLog: event.target.value
+        })
     }
 
+
     render() {
+        if (this.state.displaySpecifiedArticle !== this.props.displaySpecifiedArticle) {
+            this.setState({
+                displaySpecifiedArticle: this.props.displaySpecifiedArticle,
+                growthLog:this.props.articleContent
+            })
+        }
         return (
             <div>
-                <TextArea rows={20} onChange={this.handleWriteGrowthLogBlur.bind(this)}/>
+                <TextArea rows={20} value={this.state.growthLog} onChange={this.handleWriteGrowthLogBlur.bind(this)}/>
             </div>
         );
     }
 }
 
-export default EditArticles;
+const mapStateToProps = (state) => {
+    return {
+        displaySpecifiedArticle: state.Student.displaySpecifiedArticle
+    }
+};
+
+export default connect(mapStateToProps)(EditArticles);

@@ -11,7 +11,7 @@ import * as stationLogAction from "../../action/stationLog";
 
 class Index extends Component {
     static defaultProps = {
-        isLogin:false
+        isLogin: false
     }
 
     constructor() {
@@ -62,7 +62,6 @@ class Index extends Component {
             userId: this.props.userInfo.id
         };
         this.props.saveGrowthLog(stationRecord);
-        // setTimeout('this.setState({loading: false});', 1000);
     };
 
     getEditContent(e) {
@@ -83,6 +82,8 @@ class Index extends Component {
             })
     }
 
+
+
     getArticleTitle(e) {
         if (e.target.value) {
             this.setState({
@@ -98,7 +99,16 @@ class Index extends Component {
         }
     }
 
+    loadingOriginalTitle(title,content){
+        this.setState({
+            editContentTitle: title,
+            editContent:content
+        })
+    }
+
     render() {
+
+
         return (
             <div>
                 <Row>
@@ -117,7 +127,8 @@ class Index extends Component {
                     {
                         this.state.selectViewOne ? <Col span={this.state.selectViewOneWidth}>
                             <Card title="成长日志列表" extra={<a href="#">More</a>} style={{margin: 5}}>
-                                <ArticleList userInfo={this.props.userInfo}/>
+                                <ArticleList userInfo={this.props.userInfo}
+                                             loadingOriginalTitle={this.loadingOriginalTitle.bind(this)}/>
                             </Card>
                         </Col> : ""
                     }
@@ -127,14 +138,15 @@ class Index extends Component {
                             <Card
                                 title={<Input
                                     style={{width: '60%', height: '100%'}}
-                                    onBlur={this.getArticleTitle.bind(this)}
+                                    onChange={this.getArticleTitle.bind(this)}
                                     placeholder="ArticleTitle"
-
+                                    value={this.state.editContentTitle}
                                 />}
 
                                 extra={<a onClick={this.selectView.bind(this)}>{this.state.roleName}</a>}
                                 style={{margin: 5, padding: 0}}>
-                                <EditArticles getEditContent={this.getEditContent.bind(this)}/>
+                                <EditArticles articleContent={this.state.editContent}
+                                              getEditContent={this.getEditContent.bind(this)}/>
                             </Card>
                         </Col> : ""
                     }
@@ -155,7 +167,8 @@ class Index extends Component {
 const mapStateToProps = (state) => {
     return {
         userInfo: state.Login.userInfo,
-        isLogin: state.Login.isLogin
+        isLogin: state.Login.isLogin,
+        displaySpecifiedArticle: state.Student.displaySpecifiedArticle
     }
 };
 
@@ -165,5 +178,5 @@ const mapDispatchProps = (dispatch) => {
             dispatch(stationLogAction.saveGrowthLogAction(growthLogInfo))
         }
     }
-}
+};
 export default withRouter(connect(mapStateToProps, mapDispatchProps)(Index));

@@ -3,6 +3,7 @@ import {Button, Menu, Dropdown, Icon} from 'antd';
 
 class UserInfo extends Component {
     render(){
+        console.log(this.props.userInfo, "学生姓名");
         const menu = (
             <Menu>
                 <Menu.Item key="1">个人中心</Menu.Item>

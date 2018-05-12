@@ -9,7 +9,7 @@ export const landingJudgment = (content) => {
 };
 
 export const getLandingInfo = (data) => {
-    console.log(data);
+    console.log(data, "data数据");
     return dispatch => {
         request.post(`/web/user/login`,data)
             .then(result => {

@@ -13,7 +13,7 @@ export const setShowAllArticlesStatus = (content) => {
         type: "SET_CURRENTLY_SELECTED_STUDENTS",
         content
     }
-}
+};
 
 export const getStationLogList = () => {
     return dispatch => {
@@ -35,5 +35,5 @@ export const saveGrowthLogAction = (growthLogInfo) => {
                     dispatch(getStationLogList());
                 }
             })
-    }
+    };
 };

@@ -7,3 +7,10 @@ export const setCurrentlySelectedStudents = (content) => {
         content
     };
 };
+
+export const setDisplaySpecifiedArticle = (content) => {
+    return {
+        type: "SET_DISPLAY_SPECIFIED_ARTICLE",
+        content
+    }
+};
