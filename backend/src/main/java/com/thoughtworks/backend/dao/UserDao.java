@@ -13,7 +13,7 @@ public interface UserDao extends CrudRepository<Student, Long> {
     Sort sort = new Sort(Sort.Direction.ASC, "id");
     Pageable pageable = new PageRequest(1, 10, sort);
 
-    @Query("select stu from Student stu where stu.username = ?1 and stu.password = ?2")
-    List<Student> login(String username, String password);
+    Student findByUsernameAndPassword(String username, String password);
 
+    Student findStudentById(int userId);
 }

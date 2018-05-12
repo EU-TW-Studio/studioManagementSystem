@@ -4,6 +4,7 @@ public class ArticleInfo {
     private String logContent;
     private String logTitle;
     private int userId;
+    private int id;
 
     public String getLogContent() {
         return logContent;
@@ -27,5 +28,13 @@ public class ArticleInfo {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

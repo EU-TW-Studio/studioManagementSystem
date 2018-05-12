@@ -15,9 +15,16 @@ export const setShowAllArticlesStatus = (content) => {
     }
 };
 
+export const setCurrentEditArticleTitle = (content) => {
+    return {
+        type: "SET_CURRENT_EDIT_ARTICLE_TITLE",
+        content
+    }
+}
+
 export const getStationLogList = () => {
     return dispatch => {
-        request.get(`/web/stationRecord/logList`)
+        request.get(`/api/users`)
             .then(result => {
                     if (result.status === StatusCode.OK) {
                         dispatch(allStationLogList(result.data));
@@ -28,12 +35,26 @@ export const getStationLogList = () => {
 };
 
 export const saveGrowthLogAction = (growthLogInfo) => {
-    return dispatch => {
-        request.post(`/web/stationRecord/saveGrowthLogAction`, growthLogInfo)
-            .then(result => {
-                if (result.status === StatusCode.OK) {
-                    dispatch(getStationLogList());
-                }
-            })
-    };
+
+    if (growthLogInfo.id === -2) {
+        return dispatch => {
+            request.post(`/api/articles/`, growthLogInfo)
+                .then(result => {
+                    if (result.status === StatusCode.OK) {
+                        dispatch(getStationLogList());
+                    }
+                })
+        };
+    }else {
+        return dispatch => {
+            request.put(`/api/articles/`, growthLogInfo)
+                .then(result => {
+                    if (result.status === StatusCode.OK) {
+                        dispatch(getStationLogList());
+                    }
+                })
+        };
+    }
+
+
 };

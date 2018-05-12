@@ -12,7 +12,7 @@ import * as stationLogAction from "../../action/stationLog";
 class Index extends Component {
     static defaultProps = {
         isLogin: false
-    }
+    };
 
     constructor() {
         super();
@@ -29,7 +29,8 @@ class Index extends Component {
             selectViewThrWidth: 12,
             roleName: "预览",
             messageText: "",
-            typeText: "success"
+            typeText: "success",
+            isNewArticle: false
         };
     }
 
@@ -59,8 +60,10 @@ class Index extends Component {
         let stationRecord = {
             logContent: this.state.editContent,
             logTitle: this.state.editContentTitle,
-            userId: this.props.userInfo.id
+            userId: this.props.userInfo.id,
+            id: this.props.displaySpecifiedArticle
         };
+        console.log(stationRecord,"stationRecord中的值");
         this.props.saveGrowthLog(stationRecord);
     };
 
@@ -83,11 +86,15 @@ class Index extends Component {
     }
 
 
-
     getArticleTitle(e) {
+        this.setState({
+            editContentTitle: e.target.value,
+        })
+    }
+
+    getArticleTitleByIsNull(e) {
         if (e.target.value) {
             this.setState({
-                editContentTitle: e.target.value,
                 messageText: "",
                 typeText: "success"
             })
@@ -99,16 +106,29 @@ class Index extends Component {
         }
     }
 
-    loadingOriginalTitle(title,content){
+    loadingOriginalTitle(title, content) {
         this.setState({
             editContentTitle: title,
-            editContent:content
+            editContent: content
         })
     }
 
+    getNewArticle(data, bool) {
+        if (bool) {
+            this.setState({
+                isNewArticle: true,
+                editContentTitle: data.title,
+                editContent:data.content
+            })
+        } else {
+            this.setState({
+                messageText: data.msg,
+                typeText: data.type
+            });
+        }
+    }
+
     render() {
-
-
         return (
             <div>
                 <Row>
@@ -128,7 +148,8 @@ class Index extends Component {
                         this.state.selectViewOne ? <Col span={this.state.selectViewOneWidth}>
                             <Card title="成长日志列表" extra={<a href="#">More</a>} style={{margin: 5}}>
                                 <ArticleList userInfo={this.props.userInfo}
-                                             loadingOriginalTitle={this.loadingOriginalTitle.bind(this)}/>
+                                             loadingOriginalTitle={this.loadingOriginalTitle.bind(this)}
+                                             getNewArticle={this.getNewArticle.bind(this)}/>
                             </Card>
                         </Col> : ""
                     }
@@ -139,14 +160,16 @@ class Index extends Component {
                                 title={<Input
                                     style={{width: '60%', height: '100%'}}
                                     onChange={this.getArticleTitle.bind(this)}
+                                    onBlur={this.getArticleTitleByIsNull.bind(this)}
                                     placeholder="ArticleTitle"
-                                    value={this.state.editContentTitle}
+                                    value={this.props.displaySpecifiedArticle === -1 ? "" : this.state.editContentTitle}
                                 />}
 
                                 extra={<a onClick={this.selectView.bind(this)}>{this.state.roleName}</a>}
                                 style={{margin: 5, padding: 0}}>
-                                <EditArticles articleContent={this.state.editContent}
-                                              getEditContent={this.getEditContent.bind(this)}/>
+                                <EditArticles
+                                    articleContent={this.props.displaySpecifiedArticle === -1 ? "" : this.state.editContent}
+                                    getEditContent={this.getEditContent.bind(this)}/>
                             </Card>
                         </Col> : ""
                     }
@@ -168,7 +191,7 @@ const mapStateToProps = (state) => {
     return {
         userInfo: state.Login.userInfo,
         isLogin: state.Login.isLogin,
-        displaySpecifiedArticle: state.Student.displaySpecifiedArticle
+        displaySpecifiedArticle: state.Student.displaySpecifiedArticle,
     }
 };
 
@@ -176,6 +199,9 @@ const mapDispatchProps = (dispatch) => {
     return {
         saveGrowthLog: (growthLogInfo) => {
             dispatch(stationLogAction.saveGrowthLogAction(growthLogInfo))
+        },
+        getCurrentEditArticleTitle: (currentTitle) => {
+            dispatch(stationLogAction.setCurrentEditArticleTitle(currentTitle));
         }
     }
 };
