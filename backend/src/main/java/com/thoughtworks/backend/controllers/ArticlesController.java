@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +26,7 @@ public class ArticlesController {
 
     @PostMapping("/articles")
     public ResponseEntity saveGrowthLogAction(@RequestBody ArticleInfo articleInfo) {
+        Map<String, Object> data = new HashMap<>();
         try {
             StationRecord stationRecord = new StationRecord();
             Student student = new Student();
@@ -34,15 +37,18 @@ public class ArticlesController {
             stationRecord.setReleaseDate(df.parse(df.format(new Date())));
             stationRecord.setStudent(student);
             stationRecordDao.save(stationRecord);
-            return new ResponseEntity("", HttpStatus.OK);
+            data.put("msg", "成功");
+            return new ResponseEntity(data,HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity("", HttpStatus.INTERNAL_SERVER_ERROR);
+        data.put("msg", "失败");
+        return new ResponseEntity(data,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping("/articles")
     public ResponseEntity updateGrowthLogAction(@RequestBody ArticleInfo articleInfo) {
+        Map<String, Object> data = new HashMap<>();
         try {
             StationRecord stationRecord = new StationRecord();
             Student student = userDao.findStudentById(articleInfo.getUserId());
@@ -55,11 +61,13 @@ public class ArticlesController {
             stationRecord.setReleaseDate(df.parse(df.format(new Date())));
             stationRecord.setStudent(student);
             stationRecordDao.save(stationRecord);
-            return new ResponseEntity("", HttpStatus.OK);
+            data.put("msg", "成功");
+            return new ResponseEntity(data,HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity("", HttpStatus.INTERNAL_SERVER_ERROR);
+        data.put("msg", "失败");
+        return new ResponseEntity(data,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/articles")

@@ -82,7 +82,6 @@ class ArticleList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state, "组件状态");
     return {
         displaySpecifiedArticle: state.Student.displaySpecifiedArticle,
         isLogin: state.Login.isLogin,

@@ -6,7 +6,7 @@ import * as stationLog from '../../action/stationLog';
 
 class GrowthLogList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
@@ -17,20 +17,25 @@ class GrowthLogList extends Component {
     render() {
 
         const pagination = {
-            pageSize: 10,
-            current: 1,
-            total: this.props.studentList.length,
+            pageSize: 5,
         };
-        console.log(this.props.studentList, "studentList中的信息");
 
         return (
-            <Card title="成长日志内容" extra={<a onClick={this.showAllArticles.bind(this)}>{this.props.individualStudentSelectedState === -1 ? "" : "全部显示"}</a>} style={{margin: 5}}>
+            <Card title="成长日志内容" extra={<a
+                onClick={this.showAllArticles.bind(this)}>{this.props.individualStudentSelectedState === -1 ? "" : "全部显示"}</a>}
+                  style={{margin: 5}}>
                 <List
                     itemLayout="vertical"
                     size="large"
-                    pagination={pagination}
+                    pagination={
+                        {
+                            onChange: (page) => {
+                                console.log(page,"11");
+                            },
+                            pageSize: 5
+                        }
+                    }
                     dataSource={this.props.studentList}
-                    footer={<div><b>ant design</b> footer part</div>}
                     renderItem={item => (
                         item.stationRecord.map((elem, i) =>
                             <GrowthLog
@@ -54,10 +59,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getShowAllArticlesStatus:(status)=>{
+        getShowAllArticlesStatus: (status) => {
             dispatch(stationLog.setShowAllArticlesStatus(status));
         }
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(GrowthLogList);
+export default connect(mapStateToProps, mapDispatchToProps)(GrowthLogList);

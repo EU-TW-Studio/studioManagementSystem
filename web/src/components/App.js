@@ -61,9 +61,15 @@ class App extends Component {
                     <Menu.Item style={{float: "right", marginRight: 40}}>
                         {
                             this.props.isLogin ? <UserInfo userInfo={this.props.userInfo}/> :
-                                <Link to={'/login'} onClick={this.path.bind(this, "登陆")}>
-                                    登陆
-                                </Link>
+                                <div>
+                                    <Link to={'/login'} onClick={this.path.bind(this, "登陆")}>
+                                        登陆
+                                    </Link>
+                                     &nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <Link to={'/register'} onClick={this.path.bind(this, "注册")}>
+                                        注册
+                                    </Link>
+                                </div>
                         }
 
                     </Menu.Item>
@@ -110,7 +116,6 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state, "APP中的state");
     return {
         isLogin: state.Login.isLogin,
         userInfo: state.Login.userInfo

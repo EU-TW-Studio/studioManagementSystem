@@ -17,4 +17,10 @@ public interface UserDao extends CrudRepository<Student, Long> {
 
     @Query("select stu from Student stu where stu.id = ?1")
     Student findStudentById(int userId);
+
+    Student findByUsername(String username);
+
+    Student findByPhone(String phone);
+
+    Student findByEmail(String email);
 }

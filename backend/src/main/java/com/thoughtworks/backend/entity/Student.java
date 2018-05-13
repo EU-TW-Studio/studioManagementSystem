@@ -14,9 +14,13 @@ public class Student implements Serializable {
     private String username;//学生姓名
     private String password;
     private String studentId;//学生学号
-    private String studentImage;//学生头像
-    private String studentGrade;//学生年级
-    private String studentSkill;//学生专业
+    private String image;//学生头像
+    private String grade;//学生年级
+    private String skill;//学生专业
+    private String hobby;//爱好
+    private String phone;//电话
+    private String email;//邮箱
+
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private Set<StationRecord> stationRecord;
@@ -24,13 +28,25 @@ public class Student implements Serializable {
     public Student() {
     }
 
-    public Student(String username, String password, String studentId, String studentImage, String studentGrade, String studentSkill) {
+    public Student(String username, String password, String studentId, String image, String grade, String skill, String hobby, String phone, String email, Set<StationRecord> stationRecord) {
         this.username = username;
         this.password = password;
         this.studentId = studentId;
-        this.studentImage = studentImage;
-        this.studentGrade = studentGrade;
-        this.studentSkill = studentSkill;
+        this.image = image;
+        this.grade = grade;
+        this.skill = skill;
+        this.hobby = hobby;
+        this.phone = phone;
+        this.email = email;
+        this.stationRecord = stationRecord;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
     }
 
     public Set<StationRecord> getStationRecord() {
@@ -74,27 +90,51 @@ public class Student implements Serializable {
         this.studentId = studentId;
     }
 
-    public String getStudentImage() {
-        return studentImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setStudentImage(String studentImage) {
-        this.studentImage = studentImage;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getStudentGrade() {
-        return studentGrade;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setStudentGrade(String studentGrade) {
-        this.studentGrade = studentGrade;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
-    public String getStudentSkill() {
-        return studentSkill;
+    public String getSkill() {
+        return skill;
     }
 
-    public void setStudentSkill(String studentSkill) {
-        this.studentSkill = studentSkill;
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+
+    public String getHobbies() {
+        return hobby;
+    }
+
+    public void setHobbies(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

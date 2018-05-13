@@ -10,6 +10,7 @@ import registerServiceWorker from './registerServiceWorker';
 import StationLog from './components/stationLog/Index';
 import WriteGrowthLog from './components/writeGrowthLog/Index'
 import Login from './components/login/Login'
+import RegistrationForm from './components/register/Register';
 
 
 import reducer from './reducers/index';
@@ -27,6 +28,7 @@ ReactDOM.render(
                 <Route path="/stationLog" component={StationLog}/>
                 <Route path="/writeGrowthLog" component={WriteGrowthLog}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/register" component={RegistrationForm}/>
             </App>
         </BrowserRouter>
     </Provider>,

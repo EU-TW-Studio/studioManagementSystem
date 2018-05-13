@@ -30,7 +30,8 @@ class Index extends Component {
             roleName: "预览",
             messageText: "",
             typeText: "success",
-            isNewArticle: false
+            isNewArticle: false,
+            articlePublishingStatus: false
         };
     }
 
@@ -63,10 +64,16 @@ class Index extends Component {
             userId: this.props.userInfo.id,
             id: this.props.displaySpecifiedArticle
         };
-        this.props.saveGrowthLog(stationRecord);
+        this.props.saveGrowthLog(stationRecord,()=>{this.setState({articlePublishingStatus: true})});
 
-        this.props.getArticlePublishingStatus(1);
-        setTimeout(this.props.getArticlePublishingStatus(0), 3000);
+        setTimeout(() => {
+            this.setState({
+                articlePublishingStatus: false
+            })
+        }, 4000);
+
+        // this.props.getArticlePublishingStatus(1);
+        // setTimeout(this.props.getArticlePublishingStatus(0), 3000);
     };
 
     getEditContent(e) {
@@ -140,7 +147,7 @@ class Index extends Component {
                                showIcon
                                style={{width: '30%', float: 'left', marginLeft: 5}}
                         />}
-                    {this.props.articlePublishingStatus === 1 ?
+                    {this.state.articlePublishingStatus ?
                         <Alert message="文章发布成功"
                                type="success"
                                showIcon
@@ -197,7 +204,6 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state, "文章发布成公的状态");
     return {
         userInfo: state.Login.userInfo,
         isLogin: state.Login.isLogin,
@@ -208,15 +214,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = (dispatch) => {
     return {
-        saveGrowthLog: (growthLogInfo) => {
-            dispatch(stationLogAction.saveGrowthLogAction(growthLogInfo))
+        saveGrowthLog: (growthLogInfo,callback) => {
+            dispatch(stationLogAction.saveGrowthLogAction(growthLogInfo,callback))
         },
         getCurrentEditArticleTitle: (currentTitle) => {
             dispatch(stationLogAction.setCurrentEditArticleTitle(currentTitle));
         },
-        getArticlePublishingStatus: (status) => {
-            dispatch(stationLogAction.setArticlePublishingStatus(status));
-        }
     }
 };
 export default withRouter(connect(mapStateToProps, mapDispatchProps)(Index));

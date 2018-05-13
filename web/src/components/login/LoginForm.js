@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Checkbox} from 'antd';
+import {Form, Icon, Input, Button, Checkbox,Alert} from 'antd';
 import * as login from '../../action/login';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
@@ -11,17 +11,16 @@ class NormalLoginForm extends React.Component {
 
     constructor() {
         super();
-    }
-
-    componentDidMount() {
-        console.log("登陆状态", this.props.isLogin);
+        this.state = {
+            isLogin:0
+        }
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.props.getLandingState(values);
+                this.props.getLandingState(values,()=>{this.setState({isLogin: 1})});
             }
         });
     };
@@ -51,6 +50,9 @@ class NormalLoginForm extends React.Component {
                     )}
                 </FormItem>
                 <FormItem>
+                    {this.state.isLogin === 1 ? <Alert message="用户名或密码输入错误" type="error"/> : ""}
+                </FormItem>
+                <FormItem>
                     {getFieldDecorator('remember', {
                         valuePropName: 'checked',
                         initialValue: true,
@@ -76,8 +78,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getLandingState: (data) => {
-            dispatch(login.getLandingInfo(data));
+        getLandingState: (data,callback) => {
+            dispatch(login.getLandingInfo(data,callback));
         }
     }
 };
