@@ -46,14 +46,14 @@ class GrowthLog extends Component {
                         <IconText type="message" text="2"/>,
                         <span onClick={this.changeExpansionStatus.bind(this)}>
                             <IconText type="file-word"
-                                      text="展开原文"/></span>
+                                      text={this.state.contentExpansionStatus?"收起文章":"展开文章"}/></span>
                     ]}
             >
                 <List.Item.Meta
                     className={this.state.contentExpansionStatus ? "" : "contentOmitted"}
                     description={
                         <Card title={item.logTitle}
-                              extra={<p style={{color: "#878787"}}><span>{this.props.userName}</span>
+                              extra={<p style={{color: "#878787"}}><span>{this.props.userName}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                   <span>{contentDate.toLocaleDateString()}</span></p>}
                               style={{width: '100%'}}>
                             <p>{this.state.contentExpansionStatus ?
