@@ -11,7 +11,7 @@ import * as stationLogAction from "../../action/stationLog";
 
 class Index extends Component {
     static defaultProps = {
-        isLogin: false
+        isLogin: false,
     };
 
     constructor() {
@@ -63,8 +63,10 @@ class Index extends Component {
             userId: this.props.userInfo.id,
             id: this.props.displaySpecifiedArticle
         };
-        console.log(stationRecord,"stationRecord中的值");
         this.props.saveGrowthLog(stationRecord);
+
+        this.props.getArticlePublishingStatus(1);
+        setTimeout(this.props.getArticlePublishingStatus(0), 3000);
     };
 
     getEditContent(e) {
@@ -118,7 +120,7 @@ class Index extends Component {
             this.setState({
                 isNewArticle: true,
                 editContentTitle: data.title,
-                editContent:data.content
+                editContent: data.content
             })
         } else {
             this.setState({
@@ -138,6 +140,13 @@ class Index extends Component {
                                showIcon
                                style={{width: '30%', float: 'left', marginLeft: 5}}
                         />}
+                    {this.props.articlePublishingStatus === 1 ?
+                        <Alert message="文章发布成功"
+                               type="success"
+                               showIcon
+                               style={{width: '30%', float: 'left', marginLeft: 5}}
+                        />  : ""}
+
                     <Button className="postButton" type="primary" loading={this.state.loading}
                             onClick={this.enterLoading.bind(this)}>
                         发布
@@ -188,10 +197,12 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state, "文章发布成公的状态");
     return {
         userInfo: state.Login.userInfo,
         isLogin: state.Login.isLogin,
         displaySpecifiedArticle: state.Student.displaySpecifiedArticle,
+        articlePublishingStatus: state.StationLog.articlePublishingStatus
     }
 };
 
@@ -202,6 +213,9 @@ const mapDispatchProps = (dispatch) => {
         },
         getCurrentEditArticleTitle: (currentTitle) => {
             dispatch(stationLogAction.setCurrentEditArticleTitle(currentTitle));
+        },
+        getArticlePublishingStatus: (status) => {
+            dispatch(stationLogAction.setArticlePublishingStatus(status));
         }
     }
 };

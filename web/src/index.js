@@ -14,17 +14,20 @@ import Login from './components/login/Login'
 
 import reducer from './reducers/index';
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+let store;
 
+store = createStore(
+    reducer,
+    applyMiddleware(thunkMiddleware));
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter >
-                <App>
-                    <Route exact path="/" component={Login}/>
-                    <Route path="/stationLog" component={StationLog}/>
-                    <Route path="/writeGrowthLog" component={WriteGrowthLog}/>
-                    <Route path="/login" component={Login}/>
-                </App>
+        <BrowserRouter>
+            <App>
+                <Route exact path="/" component={Login}/>
+                <Route path="/stationLog" component={StationLog}/>
+                <Route path="/writeGrowthLog" component={WriteGrowthLog}/>
+                <Route path="/login" component={Login}/>
+            </App>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root'));

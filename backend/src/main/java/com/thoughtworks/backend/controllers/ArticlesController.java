@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -52,6 +51,8 @@ public class ArticlesController {
             stationRecord.setLogContent(articleInfo.getLogContent());
             stationRecord.setLogTitle(articleInfo.getLogTitle());
             stationRecord.setId(articleInfo.getId());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            stationRecord.setReleaseDate(df.parse(df.format(new Date())));
             stationRecord.setStudent(student);
             stationRecordDao.save(stationRecord);
             return new ResponseEntity("", HttpStatus.OK);
