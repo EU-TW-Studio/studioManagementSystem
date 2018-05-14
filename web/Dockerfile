@@ -1,7 +1,12 @@
-FROM nginx
+FROM node:8.11.1-slim
 
-LABEL maintainer="stormxing@foxmail.com"
+WORKDIR /home/app
 
-COPY build/ /usr/share/nginx/html/
+COPY . ${WORKDIR}
 
-COPY nginx/default.conf  /etc/nginx/conf.d/
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org \
+    && cnpm install
+
+EXPOSE 3000
+
+ENTRYPOINT [ "npm", "start" ]
