@@ -16,12 +16,22 @@ class GrowthLogList extends Component {
 
     render() {
 
-        const pagination = {
-            pageSize: 5,
-        };
+        let stuList = this.props.studentList;
+
+        let oldSortList = [];
+        if (stuList.length !== 0) {
+            stuList.map(item => {
+                item.stationRecord.map(elem => {
+                    oldSortList.push(Object.assign(elem, {username: item.username}));
+                })
+            })
+        }
+
+        let newSortList = oldSortList.sort((item, elem) => Number(item.id) - Number(elem.id));
+        console.log(newSortList);
 
         return (
-            <Card title="成长日志内容" extra={<a
+            <Card title={stuList.length === 1 ? `${stuList[0].username}的成长日志` : `成长日志内容`} extra={<a
                 onClick={this.showAllArticles.bind(this)}>{this.props.individualStudentSelectedState === -1 ? "" : "全部显示"}</a>}
                   style={{margin: 5}}>
                 <List
@@ -30,19 +40,18 @@ class GrowthLogList extends Component {
                     pagination={
                         {
                             onChange: (page) => {
-                                console.log(page,"11");
+                                console.log(page, "11");
                             },
                             pageSize: 5
                         }
                     }
-                    dataSource={this.props.studentList}
+                    dataSource={newSortList}
                     renderItem={item => (
-                        item.stationRecord.map((elem, i) =>
-                            <GrowthLog
-                                growthLog={elem}
-                                userName={item.username}
-                                key={i}/>)
-                    )}
+                        <GrowthLog
+                            growthLog={item}
+                            userName={item.username}
+                        />)
+                    }
                 />
             </Card>
 
