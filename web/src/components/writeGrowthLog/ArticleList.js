@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Row, Col, List, Button, Icon} from 'antd';
+import {Card, Row, Col, List, Button, Icon, Timeline} from 'antd';
 import {Link, withRouter} from 'react-router-dom';
 import * as student from '../../action/student';
 import {connect} from 'react-redux';
@@ -48,6 +48,8 @@ class ArticleList extends Component {
 
     render() {
         let userInfo = this.props.userInfo ? this.props.userInfo : {};
+        let stationRecords = userInfo.stationRecord ? userInfo.stationRecord : [];
+        console.log(stationRecords,"位排序")
         const IconText = ({type, text}) => (
             <span>
                 <Icon type={type} style={{marginRight: 8}}/>
@@ -62,11 +64,21 @@ class ArticleList extends Component {
                     </Button>}
                     size="small"
                     bordered
-                    dataSource={userInfo.stationRecord}
-                    renderItem={item => (
-                        <List.Item><a
-                            onClick={this.getDisplaySpecifiedArticle.bind(this, item)}>{item.logTitle}</a></List.Item>)}
-                />
+                >
+                    <Timeline style={{padding: 10}}>
+                        {stationRecords.sort((i,e) => e.id - i.id).map((item, i) => {
+                            return <Timeline.Item
+                                key={i}>
+                                <a onClick={this.getDisplaySpecifiedArticle.bind(this, item)}>
+                                    {item.logTitle}
+                                    <span style={{float: 'right'}}>
+                                    ...{(item.releaseDate ? item.releaseDate : "").split("T")[0]}
+                                </span>
+                                </a>
+                            </Timeline.Item>
+                        })}
+                    </Timeline>
+                </List>
             </div>
         );
     }

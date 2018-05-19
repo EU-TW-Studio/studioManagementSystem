@@ -67,7 +67,7 @@ class StudentList extends Component {
                     renderItem={item => (
                         // actions={[<a>edit</a>, <a>more</a>]}
                         <List.Item>
-                            <Student student={item}/>
+                            <Student student={item} articleCount={item.stationRecord.length}/>
                             {/*<div>content</div>*/}
                         </List.Item>
                     )}

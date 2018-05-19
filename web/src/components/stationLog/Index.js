@@ -31,8 +31,8 @@ class Index extends Component {
         return (
             <div>
                 <Row>
-                    <Col span={8}><StudentList studentList={this.props.studentList}/></Col>
-                    <Col span={16}><GrowthLogList studentList={studentListInfo}/></Col>
+                    <Col span={6}><StudentList studentList={this.props.studentList}/></Col>
+                    <Col span={18}><GrowthLogList studentList={studentListInfo}/></Col>
                 </Row>
             </div>
         )
