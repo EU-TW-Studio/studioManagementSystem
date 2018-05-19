@@ -1,5 +1,6 @@
 import * as request from '../request/request';
 import * as StatusCode from '../constants/StatusCode'
+import {landingJudgment} from "./login";
 
 export const allStationLogList = (content) => {
     return {
@@ -15,6 +16,8 @@ export const setShowAllArticlesStatus = (content) => {
     }
 };
 
+
+
 export const setCurrentEditArticleTitle = (content) => {
     return {
         type: "SET_CURRENT_EDIT_ARTICLE_TITLE",
@@ -28,6 +31,8 @@ export const getStationLogList = () => {
             .then(result => {
                     if (result.status === StatusCode.OK) {
                         dispatch(allStationLogList(result.data));
+                        let userid = document.cookie.split("=")[1];
+                        dispatch(landingJudgment(result.data.find(v => v.id === Number(userid))));
                     }
                 }
             )

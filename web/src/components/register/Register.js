@@ -66,7 +66,7 @@ class RegistrationForm extends React.Component {
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
+            callback('两次密码输入不一致!');
         } else {
             callback();
         }
@@ -136,7 +136,7 @@ class RegistrationForm extends React.Component {
                     label="学号">
                     {getFieldDecorator('studentId', {
                         rules: [{
-                            required: true, message: 'Please input your studentId'
+                            required: true, message: '请输入学号'
                         }]
                     })(<Input placeholder="input your studentId"/>)}
                 </FormItem>
@@ -148,7 +148,7 @@ class RegistrationForm extends React.Component {
                         rules: [{
                             type: 'email', message: 'The input is not valid E-mail!',
                         }, {
-                            required: true, message: 'Please input your E-mail!',
+                            required: true, message: '请输入邮箱',
                         }],
                     })(
                         <AutoComplete
@@ -165,7 +165,7 @@ class RegistrationForm extends React.Component {
                 >
                     {getFieldDecorator('password', {
                         rules: [{
-                            required: true, message: 'Please input your password!',
+                            required: true, message: '请输入密码!',
                         }, {
                             validator: this.validateToNextPassword,
                         }],
@@ -179,7 +179,7 @@ class RegistrationForm extends React.Component {
                 >
                     {getFieldDecorator('confirm', {
                         rules: [{
-                            required: true, message: 'Please confirm your password!',
+                            required: true, message: '确认输入密码!',
                         }, {
                             validator: this.compareToFirstPassword,
                         }],
@@ -199,7 +199,7 @@ class RegistrationForm extends React.Component {
                     )}
                 >
                     {getFieldDecorator('username', {
-                        rules: [{required: true, message: 'Please input your nickname!', whitespace: true}],
+                        rules: [{required: true, message: '请输入你的姓名!', whitespace: true}],
                     })(
                         <Input/>
                     )}
@@ -220,7 +220,7 @@ class RegistrationForm extends React.Component {
                     label="电话号码"
                 >
                     {getFieldDecorator('phone', {
-                        rules: [{required: true, message: 'Please input your phone number!'}],
+                        rules: [{required: true, message: '请输入电话号码!'}],
                     })(
                         <Input addonBefore={prefixSelector} style={{width: '100%'}}/>
                     )}

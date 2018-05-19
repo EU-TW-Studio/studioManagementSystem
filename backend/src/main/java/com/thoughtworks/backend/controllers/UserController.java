@@ -1,5 +1,6 @@
 package com.thoughtworks.backend.controllers;
 
+import com.thoughtworks.backend.dao.StationRecordDao;
 import com.thoughtworks.backend.dao.UserDao;
 import com.thoughtworks.backend.dto.UserInfo;
 import com.thoughtworks.backend.entity.Student;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -18,6 +20,8 @@ public class UserController {
 
     @Autowired
     UserDao userDao;
+    @Autowired
+    StationRecordDao stationRecordDao;
 
     @GetMapping("/users")
     public ResponseEntity getUsers() {
@@ -27,6 +31,12 @@ public class UserController {
     @GetMapping("/user")
     public ResponseEntity login(@RequestParam String username, @RequestParam String password) {
         Student student = userDao.findByUsernameAndPassword(username, password);
+        return new ResponseEntity(student, HttpStatus.OK);
+    }
+
+    @GetMapping("/initUser")
+    public ResponseEntity login(Integer userid) {
+        Student student = userDao.findStudentById(userid);
         return new ResponseEntity(student, HttpStatus.OK);
     }
 
