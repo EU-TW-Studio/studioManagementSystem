@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import '../static/css/App.css';
 import {Link, withRouter} from 'react-router-dom';
-import {Layout, Menu, Breadcrumb, Icon, Row, Col, Tabs, message} from 'antd'
-import Index from './stationLog/Index'
+import {Breadcrumb, Icon, Layout, Menu} from 'antd'
 import UserInfo from "./login/UserInfo";
 
 const {SubMenu} = Menu;
@@ -39,7 +38,7 @@ class App extends Component {
                     style={{height: '100%', width: '100%', borderRight: 0, backgroundColor: "#F0F1F5"}}
                 >
                     <Menu.Item key="home">
-                        <Icon type="home" />
+                        <Icon type="home"/>
                         工作室管理
                     </Menu.Item>
                     <Menu.Item style={{float: "right", marginRight: 40}}>
@@ -49,7 +48,7 @@ class App extends Component {
                                     <Link to={'/login'} onClick={this.path.bind(this, "登陆")}>
                                         登陆
                                     </Link>
-                                     &nbsp;&nbsp;|&nbsp;&nbsp;
+                                    &nbsp;&nbsp;|&nbsp;&nbsp;
                                     <Link to={'/register'} onClick={this.path.bind(this, "注册")}>
                                         注册
                                     </Link>

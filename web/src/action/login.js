@@ -1,7 +1,8 @@
 import * as request from '../request/request';
 import * as StatusCode from '../constants/StatusCode'
 
-export const landingJudgment = (content) => {
+export const landingJudgment = (oldContent) => {
+    let content = oldContent ? oldContent : {};
     if (Object.keys(content).length === 0) {
         Object.assign(content, {isLogin: false});
     } else {
