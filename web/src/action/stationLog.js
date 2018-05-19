@@ -65,3 +65,14 @@ export const saveGrowthLogAction = (growthLogInfo,callback) => {
 
 
 };
+
+export const setStar = () => {
+    return dispatch => {
+        request.post(`/api/setStar`,{})
+            .then(result => {
+                if (result.status === StatusCode.OK) {
+                    dispatch(getStationLogList());
+                }
+            })
+    }
+}
