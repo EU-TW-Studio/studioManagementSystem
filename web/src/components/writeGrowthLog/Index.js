@@ -138,6 +138,7 @@ class Index extends Component {
     }
 
     render() {
+        console.log(this.props.userInfo, "当前user对象信息");
         return (
             <div>
                 <Row>
@@ -163,7 +164,7 @@ class Index extends Component {
                     {
                         this.state.selectViewOne ? <Col span={this.state.selectViewOneWidth}>
                             <Card title="成长日志列表" extra={<a href="#">More</a>} style={{margin: 5}}>
-                                <ArticleList userInfo={this.props.userInfo}
+                                <ArticleList
                                              loadingOriginalTitle={this.loadingOriginalTitle.bind(this)}
                                              getNewArticle={this.getNewArticle.bind(this)}/>
                             </Card>
@@ -204,8 +205,9 @@ class Index extends Component {
 }
 
 const mapStateToProps = (state) => {
+    let userInfo = state.StationLog.studentList.find(v => v.id === Number(document.cookie.split("=")[1]));
     return {
-        userInfo: state.Login.userInfo,
+        userInfo: userInfo,
         isLogin: state.Login.isLogin,
         displaySpecifiedArticle: state.Student.displaySpecifiedArticle,
         articlePublishingStatus: state.StationLog.articlePublishingStatus

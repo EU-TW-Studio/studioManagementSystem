@@ -30,6 +30,7 @@ export const getStationLogList = () => {
         request.get(`/api/users`)
             .then(result => {
                     if (result.status === StatusCode.OK) {
+                        console.log(result, "查询出来的结果");
                         dispatch(allStationLogList(result.data));
                         let userid = document.cookie.split("=")[1];
                         dispatch(landingJudgment(result.data.find(v => v.id === Number(userid))));

@@ -3,6 +3,7 @@ import {Card, Row, Col, List, Button, Icon} from 'antd';
 import {Link, withRouter} from 'react-router-dom';
 import * as student from '../../action/student';
 import {connect} from 'react-redux';
+import * as stationLogAction from "../../action/stationLog";
 
 class ArticleList extends Component {
     static defaultProps = {
@@ -36,27 +37,17 @@ class ArticleList extends Component {
         if (this.props.isLogin) {
             this.props.setDisplaySpecifiedArticle(-2);
             this.props.getNewArticle({type: "success", msg: "", title: new Date().toLocaleString(), content: ""}, true);
+            this.props.getCurrentEditArticleTitle(new Date().toLocaleString());
             this.setState({
                 newArticle: true
             });
-            let currentTitle = this.props.currentEditArticleTitle === "" ? new Date().toLocaleString() : this.props.currentEditArticleTitle;
-            let newStationRecord = this.state.stationRecord.splice(0, 0, {
-                id: -2,
-                logTitle: currentTitle,
-                logContent: ""
-            });
-            if (this.state.newArticle) {
-                this.setState({
-                    stationRecord: newStationRecord,
-                });
-            }
         } else {
             this.props.getNewArticle({type: "warning", msg: "请登陆之后在操作"}, false);
         }
     }
 
     render() {
-
+        let userInfo = this.props.userInfo ? this.props.userInfo : {};
         const IconText = ({type, text}) => (
             <span>
                 <Icon type={type} style={{marginRight: 8}}/>
@@ -71,7 +62,7 @@ class ArticleList extends Component {
                     </Button>}
                     size="small"
                     bordered
-                    dataSource={this.props.studentInfo.stationRecord}
+                    dataSource={userInfo.stationRecord}
                     renderItem={item => (
                         <List.Item><a
                             onClick={this.getDisplaySpecifiedArticle.bind(this, item)}>{item.logTitle}</a></List.Item>)}
@@ -82,7 +73,9 @@ class ArticleList extends Component {
 }
 
 const mapStateToProps = (state) => {
+    let userInfo = state.StationLog.studentList.find(v => v.id === Number(document.cookie.split("=")[1]));
     return {
+        userInfo: userInfo,
         displaySpecifiedArticle: state.Student.displaySpecifiedArticle,
         isLogin: state.Login.isLogin,
         currentEditArticleTitle: state.StationLog.currentEditArticleTitle,
@@ -94,7 +87,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setDisplaySpecifiedArticle: (id) => {
             dispatch(student.setDisplaySpecifiedArticle(id));
-        }
+        },
+        getCurrentEditArticleTitle: (currentTitle) => {
+            dispatch(stationLogAction.setCurrentEditArticleTitle(currentTitle));
+        },
     }
 };
 
