@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Checkbox,Alert} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, Alert} from 'antd';
 import * as login from '../../action/login';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
@@ -12,7 +12,7 @@ class NormalLoginForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            isLogin:0
+            isLogin: 0
         }
     }
 
@@ -20,7 +20,9 @@ class NormalLoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                this.props.getLandingState(values,()=>{this.setState({isLogin: 1})});
+                this.props.getLandingState(values, () => {
+                    this.setState({isLogin: 1})
+                });
             }
         });
     };
@@ -36,14 +38,14 @@ class NormalLoginForm extends React.Component {
                   style={{width: width, margin: "auto", marginTop: width / 3}}>
                 <FormItem>
                     {getFieldDecorator('username', {
-                        rules: [{required: true, message: 'Please input your username!'}],
+                        rules: [{required: true, message: '请输入学号或者用户名登陆!'}],
                     })(
-                        <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username"/>
+                        <Input prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>} placeholder="Username or Student ID"/>
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {
-                        rules: [{required: true, message: 'Please input your Password!'}],
+                        rules: [{required: true, message: '请输入密码!'}],
                     })(
                         <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>} type="password"
                                placeholder="Password"/>
@@ -59,11 +61,9 @@ class NormalLoginForm extends React.Component {
                     })(
                         <Checkbox>Remember</Checkbox>
                     )}
-                    <a className="login-form-forgot" href="">Forgot password</a>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <a href="">register now!</a>
                 </FormItem>
             </Form>
         );
@@ -78,8 +78,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getLandingState: (data,callback) => {
-            dispatch(login.getLandingInfo(data,callback));
+        getLandingState: (data, callback) => {
+            dispatch(login.getLandingInfo(data, callback));
         }
     }
 };

@@ -30,7 +30,12 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity login(@RequestParam String username, @RequestParam String password) {
-        Student student = userDao.findByUsernameAndPassword(username, password);
+        Student student;
+        if (username.matches("[0-9]+") && username.length() == 14) {
+            student = userDao.findByStudentIdAndPassword(username, password);
+        } else {
+            student = userDao.findByUsernameAndPassword(username, password);
+        }
         return new ResponseEntity(student, HttpStatus.OK);
     }
 
@@ -49,13 +54,13 @@ public class UserController {
         if (checkByUsername != null) {
             data.put("msg", "用户名以存在");
             data.put("status", "500");
-        }else if (checkByPhone != null) {
+        } else if (checkByPhone != null) {
             data.put("msg", "手机号以存在");
             data.put("status", "500");
-        }else if (checkByEmail != null) {
+        } else if (checkByEmail != null) {
             data.put("msg", "邮箱以存在");
             data.put("status", "500");
-        }else {
+        } else {
             userDao.save(student);
             data.put("msg", "注册成功");
             data.put("status", "200");
