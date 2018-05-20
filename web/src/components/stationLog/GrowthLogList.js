@@ -27,7 +27,7 @@ class GrowthLogList extends Component {
             })
         }
 
-        let newSortList = oldSortList.sort((item, elem) => Number(item.id) - Number(elem.id));
+        let newSortList = oldSortList.sort((item, elem) => Number(elem.id) - Number(item.id));
         console.log(newSortList);
 
         return (
