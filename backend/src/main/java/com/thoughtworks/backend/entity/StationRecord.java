@@ -11,7 +11,7 @@ import java.util.Date;
 public class StationRecord implements Serializable {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     private Date releaseDate;  //发布日期
     private String logTitle;    //日志标题
     private String logContent;    //日志内容
@@ -48,11 +48,11 @@ public class StationRecord implements Serializable {
         this.student = student;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

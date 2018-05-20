@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
-import {Card, Row, Col, List, Button, Icon, Timeline} from 'antd';
+import {Card, Row, Col, List, Button, Icon, Timeline, Modal, message} from 'antd';
 import {Link, withRouter} from 'react-router-dom';
 import * as student from '../../action/student';
 import {connect} from 'react-redux';
 import * as stationLogAction from "../../action/stationLog";
+import '../../static/css/writeGrowthLog.css'
+
+
+const confirm = Modal.confirm;
+
 
 class ArticleList extends Component {
     static defaultProps = {
@@ -46,10 +51,18 @@ class ArticleList extends Component {
         }
     }
 
+    showConfirmByDel(id) {
+        console.log(id);
+        this.props.deleteArticle(id);
+    }
+
+
     render() {
+
+
         let userInfo = this.props.userInfo ? this.props.userInfo : {};
         let stationRecords = userInfo.stationRecord ? userInfo.stationRecord : [];
-        console.log(stationRecords,"位排序")
+        let _this = this.props;
         const IconText = ({type, text}) => (
             <span>
                 <Icon type={type} style={{marginRight: 8}}/>
@@ -66,13 +79,29 @@ class ArticleList extends Component {
                     bordered
                 >
                     <Timeline style={{padding: 10}}>
-                        {stationRecords.sort((i,e) => e.id - i.id).map((item, i) => {
+                        {stationRecords.sort((i, e) => e.id - i.id).map((item, i) => {
                             return <Timeline.Item
                                 key={i}>
-                                <a onClick={this.getDisplaySpecifiedArticle.bind(this, item)}>
+                                <a className='article-title-list'
+                                   onClick={this.getDisplaySpecifiedArticle.bind(this, item)}>
                                     {item.logTitle}
                                     <span style={{float: 'right'}}>
                                     ...{(item.releaseDate ? item.releaseDate : "").split("T")[0]}
+                                        &nbsp;<Button onClick={() => Modal.confirm({
+                                        title: '确定要1删除这篇文章吗?',
+                                        content: '点击OK按钮后，该对话框将在1秒后关闭',
+                                        onOk() {
+                                            return new Promise((resolve, reject) => {
+                                                _this.deleteArticle(item.id);
+                                                setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+                                            }).catch(() => message.success('删除文章成功'));
+                                        },
+                                        onCancel() {
+                                            message.success('取消删除');
+                                        },
+                                    })}
+                                                      className='del-article' size='small'
+                                                      type="danger">删除</Button>
                                 </span>
                                 </a>
                             </Timeline.Item>
@@ -103,6 +132,9 @@ const mapDispatchToProps = (dispatch) => {
         getCurrentEditArticleTitle: (currentTitle) => {
             dispatch(stationLogAction.setCurrentEditArticleTitle(currentTitle));
         },
+        deleteArticle: (id) => {
+            dispatch(stationLogAction.deleteArticle(id));
+        }
     }
 };
 

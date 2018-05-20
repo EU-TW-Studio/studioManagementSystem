@@ -38,12 +38,12 @@ public class ArticlesController {
             stationRecord.setStudent(student);
             stationRecordDao.save(stationRecord);
             data.put("msg", "成功");
-            return new ResponseEntity(data,HttpStatus.OK);
+            return new ResponseEntity(data, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
         }
         data.put("msg", "失败");
-        return new ResponseEntity(data,HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(data, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping("/articles")
@@ -62,16 +62,25 @@ public class ArticlesController {
             stationRecord.setStudent(student);
             stationRecordDao.save(stationRecord);
             data.put("msg", "成功");
-            return new ResponseEntity(data,HttpStatus.OK);
+            return new ResponseEntity(data, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
         }
         data.put("msg", "失败");
-        return new ResponseEntity(data,HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(data, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/articles")
     public ResponseEntity allArticle() {
         return new ResponseEntity(stationRecordDao.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/deleteArticle")
+    public ResponseEntity deleteArticle(@RequestParam String id) {
+        System.out.println(id);
+        Map<String, Object> data = new HashMap<>();
+        stationRecordDao.deleteById(Long.valueOf(id));
+        data.put("msg", "删除文章成功");
+        return new ResponseEntity(data, HttpStatus.OK);
     }
 }

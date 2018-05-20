@@ -33,3 +33,12 @@
     max-height: 500px;
     padding: 20px;
 }
+
+.article-title-list:hover .del-article {
+    float: right;
+    display: block;
+}
+
+.del-article {
+    display: none;
+}

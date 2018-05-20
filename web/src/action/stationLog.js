@@ -30,7 +30,6 @@ export const getStationLogList = () => {
         request.get(`/api/users`)
             .then(result => {
                     if (result.status === StatusCode.OK) {
-                        console.log(result, "查询出来的结果");
                         dispatch(allStationLogList(result.data));
                         let userid = document.cookie.split("=")[1];
                         dispatch(landingJudgment(result.data.find(v => v.id === Number(userid))));
@@ -71,6 +70,18 @@ export const setStar = () => {
         request.post(`/api/setStar`,{})
             .then(result => {
                 if (result.status === StatusCode.OK) {
+                    dispatch(getStationLogList());
+                }
+            })
+    }
+}
+
+export const deleteArticle = (id) => {
+    return dispatch => {
+        request.get(`/api/deleteArticle?id=${id}`)
+            .then(res => {
+                if (res.status === StatusCode.OK) {
+                    console.log(res, "返回的结果");
                     dispatch(getStationLogList());
                 }
             })

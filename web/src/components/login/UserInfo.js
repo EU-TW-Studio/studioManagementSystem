@@ -6,13 +6,6 @@ import {Button, Menu, Dropdown, Icon, Modal, Popconfirm, message} from 'antd';
 class UserInfo extends Component {
     constructor() {
         super();
-        this.delCookie = this.delCookie.bind(this);
-    }
-
-
-    delCookie() {
-        alert(123);
-        // document.cookie = `userid='';path=/`
     }
 
     confirm(e) {
