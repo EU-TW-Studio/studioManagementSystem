@@ -81,7 +81,6 @@ export const deleteArticle = (id) => {
         request.get(`/api/deleteArticle?id=${id}`)
             .then(res => {
                 if (res.status === StatusCode.OK) {
-                    console.log(res, "返回的结果");
                     dispatch(getStationLogList());
                 }
             })

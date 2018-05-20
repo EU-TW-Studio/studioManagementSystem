@@ -28,7 +28,6 @@ class GrowthLogList extends Component {
         }
 
         let newSortList = oldSortList.sort((item, elem) => Number(elem.id) - Number(item.id));
-        console.log(newSortList);
 
         return (
             <Card title={stuList.length === 1 ? `${stuList[0].username}的成长日志` : `成长日志内容`} extra={<a

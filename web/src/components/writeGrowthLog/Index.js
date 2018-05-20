@@ -138,7 +138,6 @@ class Index extends Component {
     }
 
     render() {
-        console.log(this.props.userInfo, "当前user对象信息");
         return (
             <div>
                 <Row>

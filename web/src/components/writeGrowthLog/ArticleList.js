@@ -51,12 +51,6 @@ class ArticleList extends Component {
         }
     }
 
-    showConfirmByDel(id) {
-        console.log(id);
-        this.props.deleteArticle(id);
-    }
-
-
     render() {
 
 
